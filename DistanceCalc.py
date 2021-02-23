@@ -2,6 +2,8 @@ from configparser import ConfigParser
 import numpy as np
 import cv2 as cv
 
+image_path = "assets/Img17.jpg"
+
 # Load config from config.ini
 def loadConfig():
     global sensor_width
@@ -49,7 +51,7 @@ def main():
     loadConfig()
     
     # Load and show the image
-    src = cv.imread("assets/Img17.jpg")
+    src = cv.imread(image_path)
     #show_wait_destroy("Src", src)
 
     # Transform image to gray
