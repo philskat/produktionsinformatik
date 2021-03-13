@@ -2,7 +2,10 @@ from configparser import ConfigParser
 import numpy as np
 import cv2 as cv
 
-image_path = "assets/Img17.jpg"
+image_path = "assets/Img15.jpg"
+#outer_diameter = 0.075
+outer_diameter = 0.335
+inner_diameter = 0.090
 
 # Load config from config.ini
 def loadConfig():
@@ -44,7 +47,7 @@ def reduceNeighbours(array):
 # Calculates the real word size from the amout of pixels
 def pixelSizeToRealWorld(distanceInPixels, imageWidth):
     sizeOnSensor = (sensor_width * distanceInPixels) / imageWidth
-    return (distance_object * sizeOnSensor) / focal_length
+    return ((distance_object + outer_diameter / 2 ) * sizeOnSensor) / focal_length
 
 
 def main():
