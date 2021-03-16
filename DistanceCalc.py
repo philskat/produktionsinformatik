@@ -21,6 +21,7 @@ def loadConfig():
     focal_length = config["Default"].getfloat("focal_length")
     distance_object = config["Default"].getfloat("distance_object")
 
+# Handle the click of submit on input window
 def handleClick():
     global outer_diameter
     global inner_diameter
@@ -66,8 +67,11 @@ def main():
     global master
     global outerInput
     global innerInput
+
+    # Load config for measuring values
     loadConfig()
 
+    # Setup input window
     master = Tk()
     Label(master, text="Outer diameter (mm)").grid(row=0)
     Label(master, text="Inner diameter (mm)").grid(row=1)
@@ -80,9 +84,8 @@ def main():
 
     Button(master, text="Submit", command=handleClick).grid(row=3)
 
+    # Run input window
     mainloop()
-
-    print(outer_diameter, inner_diameter)
     
     # Load and show the image
     src = cv.imread(image_path)
