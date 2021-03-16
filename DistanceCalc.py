@@ -1,11 +1,12 @@
+from tkinter import *
 from configparser import ConfigParser
 import numpy as np
 import cv2 as cv
 
 image_path = "assets/Img15.jpg"
 #outer_diameter = 0.075
-outer_diameter = 0.335
-inner_diameter = 0.090
+outer_diameter = 0
+inner_diameter = 0
 
 # Load config from config.ini
 def loadConfig():
@@ -19,6 +20,17 @@ def loadConfig():
     sensor_width = config["Default"].getfloat("sensor_width")
     focal_length = config["Default"].getfloat("focal_length")
     distance_object = config["Default"].getfloat("distance_object")
+
+def handleClick():
+    global outer_diameter
+    global inner_diameter
+    try:
+        outer_diameter = float(outerInput.get()) / 10000
+        inner_diameter = float(innerInput.get()) / 10000
+        master.quit()
+
+    except ValueError:
+        print("Wrong Values")
 
 # Shows given image in a window and wait for key press
 def show_wait_destroy(winname, img):
@@ -51,7 +63,26 @@ def pixelSizeToRealWorld(distanceInPixels, imageWidth):
 
 
 def main():
+    global master
+    global outerInput
+    global innerInput
     loadConfig()
+
+    master = Tk()
+    Label(master, text="Outer diameter (mm)").grid(row=0)
+    Label(master, text="Inner diameter (mm)").grid(row=1)
+
+    outerInput = Entry(master)
+    innerInput = Entry(master)
+
+    outerInput.grid(row=0, column=1)
+    innerInput.grid(row=1, column=1)
+
+    Button(master, text="Submit", command=handleClick).grid(row=3)
+
+    mainloop()
+
+    print(outer_diameter, inner_diameter)
     
     # Load and show the image
     src = cv.imread(image_path)
