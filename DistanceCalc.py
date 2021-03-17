@@ -146,8 +146,6 @@ def main():
     realInnerDiameter = pixelSizeToRealWorld(innerDiameter, width)
     diffInnerDiameter = realInnerDiameter * 100 - inner_diameter * 100
 
-    print(outer_diameter)
-
     # Write value of real diameter on the image
     cv.putText((src), str(round(realInnerDiameter*100,2)) + "cm", (round(columns[1]+innerDiameter/2), height // 3 - 25), cv.FONT_ITALIC, 4, (255,0,0), 5, cv.LINE_AA)
     cv.putText((src), str(round(diffInnerDiameter,2)) + "cm", (round(columns[1]+innerDiameter/2), height // 3 + 100), cv.FONT_ITALIC, 4, (0,0,255), 5, cv.LINE_AA)
