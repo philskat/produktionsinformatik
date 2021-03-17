@@ -26,8 +26,8 @@ def handleClick(outerInput, innerInput, master):
     global outer_diameter
     global inner_diameter
     try:
-        outer_diameter = float(outerInput.get()) / 10000
-        inner_diameter = float(innerInput.get()) / 10000
+        outer_diameter = float(outerInput.get()) / 1000
+        inner_diameter = float(innerInput.get()) / 1000
         master.destroy()
 
     except ValueError:
@@ -142,11 +142,17 @@ def main():
 
     # Convert pixel size to real world size
     realOuterDiameter = pixelSizeToRealWorld(outerDiameter, width)
+    diffOuterDiameter = realOuterDiameter * 100 - outer_diameter * 100
     realInnerDiameter = pixelSizeToRealWorld(innerDiameter, width)
+    diffInnerDiameter = realInnerDiameter * 100 - inner_diameter * 100
+
+    print(outer_diameter)
 
     # Write value of real diameter on the image
     cv.putText((src), str(round(realInnerDiameter*100,2)) + "cm", (round(columns[1]+innerDiameter/2), height // 3 - 25), cv.FONT_ITALIC, 4, (255,0,0), 5, cv.LINE_AA)
+    cv.putText((src), str(round(diffInnerDiameter,2)) + "cm", (round(columns[1]+innerDiameter/2), height // 3 + 100), cv.FONT_ITALIC, 4, (0,0,255), 5, cv.LINE_AA)
     cv.putText((src), str(round(realOuterDiameter*100,2)) + "cm", (round(columns[0]+outerDiameter/2), 2 * height // 3 - 25), cv.FONT_ITALIC, 4, (255,0,0), 5, cv.LINE_AA)
+    cv.putText((src), str(round(diffOuterDiameter,2)) + "cm", (round(columns[0]+outerDiameter/2), 2 * height // 3 + 100 ), cv.FONT_ITALIC, 4, (0,0,255), 5, cv.LINE_AA)
     show_wait_destroy("Line", src)
 
     return 0
