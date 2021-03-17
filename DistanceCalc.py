@@ -22,13 +22,13 @@ def loadConfig():
     distance_object = config["Default"].getfloat("distance_object")
 
 # Handle the click of submit on input window
-def handleClick():
+def handleClick(outerInput, innerInput, master):
     global outer_diameter
     global inner_diameter
     try:
         outer_diameter = float(outerInput.get()) / 10000
         inner_diameter = float(innerInput.get()) / 10000
-        master.quit()
+        master.destroy()
 
     except ValueError:
         print("Wrong Values")
@@ -64,15 +64,18 @@ def pixelSizeToRealWorld(distanceInPixels, imageWidth):
 
 
 def main():
-    global master
-    global outerInput
-    global innerInput
-
     # Load config for measuring values
     loadConfig()
+    
+    # Load and show the image
+    src = cv.imread(image_path)
+    #show_wait_destroy("Src", src)
+
+    cv.imshow("Original", cv.resize(src, None, fx=0.25, fy=0.25))
 
     # Setup input window
     master = Tk()
+    master.title("Diameters input")
     Label(master, text="Outer diameter (mm)").grid(row=0)
     Label(master, text="Inner diameter (mm)").grid(row=1)
 
@@ -82,14 +85,15 @@ def main():
     outerInput.grid(row=0, column=1)
     innerInput.grid(row=1, column=1)
 
-    Button(master, text="Submit", command=handleClick).grid(row=3)
+    Button(master, 
+           text="Submit", 
+           command=lambda: handleClick(outerInput, innerInput, master)
+    ).grid(row=3)
 
     # Run input window
     mainloop()
-    
-    # Load and show the image
-    src = cv.imread(image_path)
-    #show_wait_destroy("Src", src)
+
+    cv.destroyAllWindows()
 
     # Transform image to gray
     gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
